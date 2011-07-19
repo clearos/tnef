@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.8
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -17,6 +17,7 @@ Source4:   tnef.sh
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: kde-filesystem
+BuildRequires: desktop-file-utils
 
 
 %description
@@ -128,6 +129,8 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Jul 19 2011 David Timms <iinet.net.au@dtimms> - 1.4.8-4
+- add buildrequires on desktop-file-utils
 
 * Mon Jul 18 2011 David Timms <iinet.net.au@dtimms> - 1.4.8-3
 - del main package require on kde-filesystem
