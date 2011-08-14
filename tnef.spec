@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.8
-Release:   4%{?dist}
+Release:   4.2%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -47,7 +47,7 @@ Group:   Applications/Archiving
 
 Requires: tnef
 Requires: kde-filesystem
-Requires: dolphin
+Requires: kdebase
 
 
 %description dolphin
@@ -129,6 +129,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Aug 14 2011 David Timms <iinet.net.au@dtimms> - 1.4.8-4.2
+- mod dolphin subpackage to require kdebase since dolphin not provided in el6
+
 * Tue Jul 19 2011 David Timms <iinet.net.au@dtimms> - 1.4.8-4
 - add buildrequires on desktop-file-utils
 
