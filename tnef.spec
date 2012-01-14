@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.8
-Release:   4.2%{?dist}
+Release:   5.2%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -129,6 +129,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.8-5.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Sun Aug 14 2011 David Timms <iinet.net.au@dtimms> - 1.4.8-4.2
 - mod dolphin subpackage to require kdebase since dolphin not provided in el6
 
