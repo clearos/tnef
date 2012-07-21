@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.8
-Release:   5.2%{?dist}
+Release:   6.2%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -129,6 +129,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.8-6.2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.8-5.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
