@@ -8,7 +8,6 @@ Icon=archive-extract
 Actions=tnefExtractToSubfolder;
 
 [Desktop Action tnefExtractToSubfolder]
-Type=Application
 Name=Extract TNEF (email attachment) Archive
 Exec=tnef.sh "%f"
 Icon=archive-extract

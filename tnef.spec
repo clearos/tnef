@@ -1,6 +1,6 @@
 Name:      tnef
-Version:   1.4.8
-Release:   6.2%{?dist}
+Version:   1.4.9
+Release:   1%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -80,9 +80,7 @@ desktop-file-install                                   \
 
 #in future: kde4_servicesdir, but for now
 mkdir -p %{buildroot}%{_kde4_datadir}/kde4/services/ 
-desktop-file-install                                 \
-    --dir=%{buildroot}%{_kde4_datadir}/kde4/services \
-    %{SOURCE3}
+cp %{SOURCE3} %{buildroot}%{_kde4_datadir}/kde4/services/
 
 install -p -m 755 %{SOURCE4} \
         %{buildroot}%{_bindir}/
@@ -129,6 +127,10 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Jul 22 2012 David Timms <iinet.net.au@dtimms> - 1.4.9-1
+- update to 1.4.9
+- mod kde/dolphin servicemenu to be plain copy rather than desktop-file-validate
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.8-6.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
