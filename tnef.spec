@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.9
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -127,6 +127,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Sun Jul 22 2012 David Timms <iinet.net.au@dtimms> - 1.4.9-1
 - update to 1.4.9
 - mod kde/dolphin servicemenu to be plain copy rather than desktop-file-validate
