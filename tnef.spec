@@ -1,6 +1,6 @@
 Name:      tnef
 Version:   1.4.9
-Release:   4%{?dist}
+Release:   5%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -14,6 +14,7 @@ Source1:   vnd.ms-tnef.desktop
 Source2:   tnef-extract.desktop
 Source3:   tnefextract.desktop
 Source4:   tnef.sh
+Patch0:    tnef-1.4.9-format-security.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: kde-filesystem
@@ -56,6 +57,7 @@ Provides a right-click extract menu item for Dolphin to extract TNEF files.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -127,6 +129,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Fri Jun 13 2014 Yaakov Selkowitz <yselkowi@redhat.com> - 1.4.9-5
+- Fix FTBFS with -Werror=format-security (#1037361, #1107453)
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.9-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
