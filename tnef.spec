@@ -1,6 +1,9 @@
+%global commit 0b35ad883c94aaf83d456516f57294b0ffb950ab
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:      tnef
-Version:   1.4.9
-Release:   6%{?dist}
+Version:   1.4.11
+Release:   1.20140826git%{shortcommit}%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -8,15 +11,20 @@ License:   GPLv2+
 # what about: src/ConvertUTF.* ?
 # * Unicode, Inc. hereby grants the right to freely use the information
 # ... Fedora-legal confirmed this to be the free Unicode license.
-URL:       http://sourceforge.net/projects/tnef/
-Source0:   http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
+# The upstream project has moved to github; 
+URL:       https://github.com/verdammelt/tnef
+# The 1.4.11 archive was different between the old (missing parts) and new site (git archive):
+# For git hub release archives:
+#S#ource0:   https://github.com/verdammelt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+# For git hub tags:
+Source0:   https://github.com/verdammelt/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
 Source1:   vnd.ms-tnef.desktop
 Source2:   tnef-extract.desktop
 Source3:   tnefextract.desktop
 Source4:   tnef.sh
-Patch0:    tnef-1.4.9-format-security.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires: automake autoconf
 BuildRequires: kde-filesystem
 BuildRequires: desktop-file-utils
 
@@ -56,11 +64,14 @@ Provides a right-click extract menu item for Dolphin to extract TNEF files.
 
 
 %prep
-%setup -q
-%patch0 -p1
+# Normal release extraction
+#%#setup -q
+# git tag extraction
+%setup -q -n %{name}-%{commit}
 
 
 %build
+autoreconf
 %configure
 make %{?_smp_mflags}
 chmod a-x THANKS
@@ -113,7 +124,7 @@ make check DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING NEWS README THANKS TODO
+%doc AUTHORS ChangeLog COPYING NEWS README.md THANKS
 %{_bindir}/%{name}
 %{_bindir}/%{name}.sh
 %{_mandir}/man1/%{name}.1*
@@ -129,6 +140,12 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Aug 31 2014 David Timms <iinet.net.au@dtimms> - 1.4.11-1.20140826git0b35ad8
+- update to 1.4.11 / git tag of 2014-08-26.
+- add autoreconf to build process now that upstream no longer creates source tarballs.
+- drop upstreamed format-security patch.
+- drop document file TODO and update path for README.
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.9-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
