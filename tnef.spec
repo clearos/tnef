@@ -1,9 +1,9 @@
 #%#global commit #githash for non releases.
-#%#global shortcommit %(c=%{commit}; echo ${c:0:7})
+#%#global shortcommit %(c=%#{commit}; echo ${c:0:7})
 
 Name:      tnef
 Version:   1.4.12
-Release:   1%{?dist}
+Release:   2%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -17,7 +17,7 @@ URL:       https://github.com/verdammelt/tnef
 # For git hub release archives:
 Source0:   https://github.com/verdammelt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # For git hub tags:
-#S#ource0:   https://github.com/verdammelt/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
+#S#ource0:   https://github.com/verdammelt/%#{name}/archive/%#{commit}/%#{name}-%#{commit}.tar.gz
 Source1:   vnd.ms-tnef.desktop
 Source2:   tnef-extract.desktop
 Source3:   tnefextract.desktop
@@ -25,7 +25,6 @@ Source4:   tnef.sh
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: automake autoconf
-BuildRequires: kde-filesystem
 BuildRequires: desktop-file-utils
 
 
@@ -50,6 +49,7 @@ Requires: nautilus
 Provides a right-click extract menu item for Nautilus to extract TNEF files.
 
 
+%if ! 0%{?el5}
 %package dolphin
 Summary: Provides TNEF extract extension for KDE's Dolphin file manager
 Group:   Applications/Archiving
@@ -61,13 +61,14 @@ Requires: kdebase
 
 %description dolphin
 Provides a right-click extract menu item for Dolphin to extract TNEF files.
+%endif
 
 
 %prep
 # Normal release extraction
 %setup -q
 # git tag extraction
-#%#setup -q -n %{name}-%{commit}
+#%#setup -q -n %#{name}-%#{commit}
 
 
 %build
@@ -84,16 +85,23 @@ make install DESTDIR=%{buildroot}
 mkdir -p %{buildroot}/%{_datadir}/mimelnk/application/
 desktop-file-install                                  \
     --dir=%{buildroot}%{_datadir}/mimelnk/application \
+%if 0%{?el5}
+    --vendor="" \
+%endif
     %{SOURCE1}
 
 mkdir -p %{buildroot}/%{_datadir}/applications/
-desktop-file-install                                   \
+desktop-file-install                           \
     --dir=%{buildroot}%{_datadir}/applications \
+%if 0%{?el5}
+    --vendor="" \
+%endif
     %{SOURCE2}
 
-#in future: kde4_servicesdir, but for now
-mkdir -p %{buildroot}%{_kde4_datadir}/kde4/services/ 
-cp %{SOURCE3} %{buildroot}%{_kde4_datadir}/kde4/services/
+%if ! 0%{?el5}
+mkdir -p %{buildroot}/%{_datadir}/kde4/services/ 
+cp %{SOURCE3} %{buildroot}/%{_datadir}/kde4/services/
+%endif
 
 install -p -m 755 %{SOURCE4} \
         %{buildroot}%{_bindir}/
@@ -106,12 +114,14 @@ install -p -m 755 %{SOURCE4} \
 /usr/bin/update-desktop-database &> /dev/null || :
 
 
+%if ! 0%{?el5}
 %post dolphin
 /usr/bin/update-desktop-database &> /dev/null || :
 
 
 %postun dolphin
 /usr/bin/update-desktop-database &> /dev/null || :
+%endif
 
 
 %clean
@@ -135,11 +145,16 @@ make check DESTDIR=%{buildroot}
 %{_datadir}/mimelnk/application/vnd.ms-tnef.desktop
 
 
+%if ! 0%{?el5}
 %files dolphin
-%{_kde4_datadir}/kde4/services/tnefextract.desktop
+%{_datadir}/kde4/services/tnefextract.desktop
+%endif
 
 
 %changelog
+* Sat Feb 21 2015 David Timms <iinet.net.au@dtimms> - 1.4.12-2
+- exclude creating tnef-dolphin subpackage for EPEL-5 which did not ship dolphin.
+
 * Tue Sep 09 2014 David Timms <iinet.net.au@dtimms> - 1.4.12-1
 - update to 1.4.12
 
