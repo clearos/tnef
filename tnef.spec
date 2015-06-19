@@ -3,7 +3,7 @@
 
 Name:      tnef
 Version:   1.4.12
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -152,6 +152,9 @@ make check DESTDIR=%{buildroot}
 
 
 %changelog
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.4.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sat Feb 21 2015 David Timms <iinet.net.au@dtimms> - 1.4.12-2
 - exclude creating tnef-dolphin subpackage for EPEL-5 which did not ship dolphin.
 
