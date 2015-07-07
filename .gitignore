@@ -1,1 +1,4 @@
 /tnef-1.4.12.tar.gz
+/Makefile
+*.src.rpm
+*.tar.gz
