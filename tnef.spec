@@ -3,7 +3,7 @@
 
 Name:      tnef
 Version:   1.4.12
-Release:   2%{?dist}
+Release:   2%{?dist}.1
 Summary:   Extract files from email attachments like WINMAIL.DAT
 
 Group:     Applications/Archiving
@@ -18,14 +18,9 @@ URL:       https://github.com/verdammelt/tnef
 Source0:   https://github.com/verdammelt/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 # For git hub tags:
 #S#ource0:   https://github.com/verdammelt/%#{name}/archive/%#{commit}/%#{name}-%#{commit}.tar.gz
-Source1:   vnd.ms-tnef.desktop
-Source2:   tnef-extract.desktop
-Source3:   tnefextract.desktop
-Source4:   tnef.sh
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: automake autoconf
-BuildRequires: desktop-file-utils
 
 
 %description
@@ -35,33 +30,6 @@ which may have been placed into the MS-TNEF attachment instead of being
 attached separately.
 
 Such files may have attachment names similar to WINMAIL.DAT
-
-
-%package nautilus
-Summary: Provides TNEF extract extension for Gnome's Nautilus file manager
-Group:   Applications/Archiving
-
-Requires: tnef
-Requires: nautilus
-
-
-%description nautilus
-Provides a right-click extract menu item for Nautilus to extract TNEF files.
-
-
-%if ! 0%{?el5}
-%package dolphin
-Summary: Provides TNEF extract extension for KDE's Dolphin file manager
-Group:   Applications/Archiving
-
-Requires: tnef
-Requires: kde-filesystem
-Requires: kdebase
-
-
-%description dolphin
-Provides a right-click extract menu item for Dolphin to extract TNEF files.
-%endif
 
 
 %prep
@@ -82,47 +50,6 @@ chmod a-x THANKS
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
-mkdir -p %{buildroot}/%{_datadir}/mimelnk/application/
-desktop-file-install                                  \
-    --dir=%{buildroot}%{_datadir}/mimelnk/application \
-%if 0%{?el5}
-    --vendor="" \
-%endif
-    %{SOURCE1}
-
-mkdir -p %{buildroot}/%{_datadir}/applications/
-desktop-file-install                           \
-    --dir=%{buildroot}%{_datadir}/applications \
-%if 0%{?el5}
-    --vendor="" \
-%endif
-    %{SOURCE2}
-
-%if ! 0%{?el5}
-mkdir -p %{buildroot}/%{_datadir}/kde4/services/ 
-cp %{SOURCE3} %{buildroot}/%{_datadir}/kde4/services/
-%endif
-
-install -p -m 755 %{SOURCE4} \
-        %{buildroot}%{_bindir}/
-
-
-%post nautilus
-/usr/bin/update-desktop-database &> /dev/null || :
-
-%postun nautilus
-/usr/bin/update-desktop-database &> /dev/null || :
-
-
-%if ! 0%{?el5}
-%post dolphin
-/usr/bin/update-desktop-database &> /dev/null || :
-
-
-%postun dolphin
-/usr/bin/update-desktop-database &> /dev/null || :
-%endif
-
 
 %clean
 rm -rf %{buildroot}
@@ -136,22 +63,13 @@ make check DESTDIR=%{buildroot}
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS README.md THANKS
 %{_bindir}/%{name}
-%{_bindir}/%{name}.sh
 %{_mandir}/man1/%{name}.1*
 
 
-%files nautilus
-%{_datadir}/applications/tnef-extract.desktop
-%{_datadir}/mimelnk/application/vnd.ms-tnef.desktop
-
-
-%if ! 0%{?el5}
-%files dolphin
-%{_datadir}/kde4/services/tnefextract.desktop
-%endif
-
-
 %changelog
+* Mon Jul 13 2015 ClearFoundation <developer@clearfoundation.com> - 1.4.12-2.clear.1
+- Removed nautilus and dolphin dependencies
+
 * Sat Feb 21 2015 David Timms <iinet.net.au@dtimms> - 1.4.12-2
 - exclude creating tnef-dolphin subpackage for EPEL-5 which did not ship dolphin.
 

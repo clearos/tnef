@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-MimeType=application/vnd.ms-tnef;
-Icon=archive-extract
-Name=Extract TNEF (email attachment) Archive
-Comment=TNEF archive
-#Patterns=winmail.dat;winmail*.dat;*.dat;
-Exec=tnef.sh "%f"
-NoDisplay=true
